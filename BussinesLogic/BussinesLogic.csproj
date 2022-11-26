@@ -7,11 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Repository\" />
-    <None Remove="Interfaces\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repository\" />
-    <Folder Include="Interfaces\" />
+    <ProjectReference Include="..\Commons\Commons.csproj" />
   </ItemGroup>
 </Project>

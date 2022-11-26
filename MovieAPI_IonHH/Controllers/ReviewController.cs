@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Commons.Models;
-
+using BussinesLogic.Interfaces;
 
 namespace MovieAPI_IonHH.Controllers;
 
@@ -12,6 +12,7 @@ namespace MovieAPI_IonHH.Controllers;
 [Route("[controller]")]
 public class ReviewController : ControllerBase
 {
+    private readonly IReviewRepository _reviewRepository;
     //private readonly ILogger<WeatherForecastController> _logger;
 
     //public WeatherForecastController(ILogger<WeatherForecastController> logger)
@@ -19,21 +20,37 @@ public class ReviewController : ControllerBase
     //    _logger = logger;
     //}
 
-    [HttpGet("{movieId}",Name = "GetReviews")]
-    public IActionResult Reviews()
+    public ReviewController(IReviewRepository reviewRepository)
     {
-        return Ok();
+        _reviewRepository = reviewRepository;
     }
 
-    [HttpPost("{movieId}", Name = "AddReview")]
-    public IActionResult AddReview(ReviewDTI review)
+    [HttpGet("{movieId}",Name = "GetReviews")]
+    public IActionResult Reviews(int movieId)
     {
-        if (string.IsNullOrEmpty(review.Review))
+        try
         {
-            return BadRequest("Empty object");
+            var reviews = _reviewRepository.GetListReview(movieId);
+            return Ok(reviews);
         }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
-        return CreatedAtAction(nameof(AddReview), Request.RouteValues, review);
+    [HttpPost( Name = "AddReview")]
+    public async Task<IActionResult> AddReview(ReviewDTI review)
+    {
+        try
+        {
+            var reviewAdd = await _reviewRepository.AddReview(review);
+            return Created( nameof(AddReview), reviewAdd);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
 

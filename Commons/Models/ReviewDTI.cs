@@ -4,6 +4,8 @@ namespace Commons.Models;
 
 public class ReviewDTI
 {
-		public string? Review { get; set; }
-		public double rating { get; set; }
+	public int MovieId { get; set; }
+	public string? Description { get; set; }
+	public double Rating { get; set; }
+	public string User { get; set; }
 }

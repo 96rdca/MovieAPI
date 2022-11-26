@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
 	public DbSet<Movies> Movies { get; set; }
 	public DbSet<Reviews> Reviews { get; set; }
 
-	public IConfiguration Configuration { get;  }
+	//public IConfiguration Configuration { get;  }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -47,6 +47,9 @@ namespace MovieAPI_IonHH.Repository
             }
             catch (Exception ex)
             {
+#if DEBUG
+                Console.WriteLine(ex);
+#endif
                 throw new Exception("An error has ocurred while saving");
             }
         }
@@ -69,6 +72,9 @@ namespace MovieAPI_IonHH.Repository
             }
             catch (Exception ex)
             {
+#if DEBUG
+                Console.WriteLine(ex);
+#endif
                 throw new Exception("An error has ocurred while fetching data");
             }
         }

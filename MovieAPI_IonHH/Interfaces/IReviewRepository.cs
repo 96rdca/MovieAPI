@@ -9,4 +9,3 @@ namespace BussinesLogic.Interfaces
 		List<ReviewDTO> GetListReview(int movieId);
 	}
 }
-

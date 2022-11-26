@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BussinesLogic.Interfaces;
+using Commons;
+using Commons.Models;
+using Core.Models;
 using Microsoft.AspNetCore.Mvc;
-
+using MovieAPI_IonHH.Context;
 
 namespace MovieAPI_IonHH.Controllers;
 
@@ -11,28 +15,68 @@ namespace MovieAPI_IonHH.Controllers;
 [Route("[controller]")]
 public class MoviesController : ControllerBase
 {
-    [HttpPost(Name = "CreateMovie")]
-    public IActionResult CreateMovie()
+    private readonly IMovieRepository _movieRepository;
+
+    public MoviesController(IMovieRepository repository)
     {
-        return Ok("Testing");
+        _movieRepository = repository;
+    }
+
+    [HttpPost(Name = "CreateMovie")]
+    public async Task<IActionResult> CreateMovie(MovieDTI movie)
+    {
+        try
+        {
+           var movieCreated = await _movieRepository.AddMovie(movie);
+            return Created(nameof(CreateMovie), movieCreated);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpGet("{movieId}", Name = "GetMovie")]
-    public IActionResult GetMovie()
+    public IActionResult GetMovie(int movieId)
     {
-        return Ok("Testing");
+        try
+        {
+            var movie = _movieRepository.GetMovie(movieId);
+            return Ok(movie);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+
+        }
     }
 
     [HttpGet(Name = "MoviesList")]
-    public IActionResult MoviesList(string? sort, int? page  )
+    public IActionResult MoviesList([FromQuery] MovieParameters movieParameters)
     {
-        return Ok();
+        try
+        {
+            var movieList = _movieRepository.GetListMovies(movieParameters);
+            return Ok(movieList);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 
     [HttpDelete("{movieId}/disabled", Name = "DisableMovie")]
-    public IActionResult DisableMovie()
+    public async Task<IActionResult> DisableMovie(int movieId)
     {
-        return Ok("Testing");
+        try
+        {
+            var isDisabled = await _movieRepository.DisableMovie(movieId);
+            return Ok(isDisabled);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }
 

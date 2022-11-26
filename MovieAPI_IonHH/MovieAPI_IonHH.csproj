@@ -20,6 +20,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.23" />
+    <PackageReference Include="LinqKit.Core" Version="1.2.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +39,8 @@
     <None Remove="Context\" />
     <None Remove="Repository\" />
     <None Remove="Interfaces\" />
+    <None Remove="System.Linq.Dynamic.Core" />
+    <None Remove="LinqKit.Core" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Context\" />
